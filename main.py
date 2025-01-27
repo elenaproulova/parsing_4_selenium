@@ -8,9 +8,12 @@ browser = webdriver.Chrome()
 
 
 def search_wikipedia(query):
-    browser.get(f"https://ru.wikipedia.org/wiki/{query}")
+    browser.get("https://ru.wikipedia.org/wiki/Заглавная_страница")
     time.sleep(2)
-
+    search_box = browser.find_element(By.ID, "searchInput")
+    search_box.send_keys(query)
+    search_box.send_keys(Keys.RETURN)
+    time.sleep(1)
 
 def read_paragraphs():
     paragraphs = browser.find_elements(By.TAG_NAME, "p")
@@ -20,12 +23,32 @@ def read_paragraphs():
 
 
 def get_related_links():
-    links = browser.find_elements(By.XPATH, "//a[@href and not(contains(@href, ':')) and not(contains(@href, '#'))]")
-    related_links = []
-    for link in links:
-        if link.text and link.text not in related_links:
-            related_links.append(link)
-    return related_links
+    hatnotes = []
+    for element in browser.find_elements(By.TAG_NAME, "div"):
+    # Чтобы искать атрибут класса
+        cl = element.get_attribute("class")
+        if cl == "hatnote navigation-not-searchable":
+            hatnotes.append(element)
+        return hatnotes
+
+   # hatnote = random.choice(hatnotes)
+
+    # Для получения ссылки мы должны найти на сайте тег "a" внутри тега "div"
+    # link = hatnote.find_element(By.TAG_NAME, "a").get.attribute("href")
+    # browser.get(link)
+
+
+
+
+
+
+
+    # links = browser.find_elements(By.XPATH, "//a[@href and not(contains(@href, ':')) and not(contains(@href, '#'))]")
+    # related_links = []
+    # for link in links:
+    #     if link.text and link.text not in related_links:
+    #         related_links.append(link)
+    # return related_links
 
 
 def main():
@@ -45,13 +68,13 @@ def main():
         if choice == '1':
             read_paragraphs()
         elif choice == '2':
-            related_links = get_related_links()
-            if not related_links:
+            link = get_related_links()
+            if not link:
                 print("Связанные страницы не найдены.")
                 continue
 
             print("Выберите связанную страницу:")
-            for i, link in enumerate(related_links[:5]):  # Выводим первые 5 связанных ссылок
+            for i, link in enumerate(hatnotes[:5]):  # Выводим первые 5 связанных ссылок
                 print(f"{i + 1}. {link.text}")
 
             link_choice = int(input("Введите номер страницы для перехода: ")) - 1
