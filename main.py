@@ -8,12 +8,8 @@ browser = webdriver.Chrome()
 
 
 def search_wikipedia(query):
-    browser.get("https://ru.wikipedia.org/wiki/Заглавная_страница")
+    browser.get(f"https://ru.wikipedia.org/wiki/{query}")
     time.sleep(2)
-    search_box = browser.find_element(By.ID, "searchInput")
-    search_box.send_keys(query)
-    search_box.send_keys(Keys.RETURN)
-    time.sleep(1)
 
 def read_paragraphs():
     paragraphs = browser.find_elements(By.TAG_NAME, "p")
@@ -23,36 +19,20 @@ def read_paragraphs():
 
 
 def get_related_links():
-    hatnotes = []
-    for element in browser.find_elements(By.TAG_NAME, "div"):
-    # Чтобы искать атрибут класса
-        cl = element.get_attribute("class")
-        if cl == "hatnote navigation-not-searchable":
-            hatnotes.append(element)
-        return hatnotes
-
-   # hatnote = random.choice(hatnotes)
-
-    # Для получения ссылки мы должны найти на сайте тег "a" внутри тега "div"
-    # link = hatnote.find_element(By.TAG_NAME, "a").get.attribute("href")
-    # browser.get(link)
-
-
-
-
-
-
-
-    # links = browser.find_elements(By.XPATH, "//a[@href and not(contains(@href, ':')) and not(contains(@href, '#'))]")
-    # related_links = []
-    # for link in links:
-    #     if link.text and link.text not in related_links:
-    #         related_links.append(link)
-    # return related_links
+    links = browser.find_elements(By.XPATH, "//a[@href and not(contains(@href, ':')) and not(contains(@href, '#'))]")
+    related_links = []
+    for link in links:
+        if link.text and link.text not in related_links:
+            related_links.append(link)
+    return related_links
 
 
 def main():
     print("Добро пожаловать в поисковик Википедии!")
+
+    # Переход на главную страницу
+    browser.get("https://ru.wikipedia.org/wiki/Заглавная_страница")
+    time.sleep(2)
 
     initial_query = input("Введите запрос для поиска: ").replace(" ", "_")
     search_wikipedia(initial_query)
@@ -68,13 +48,15 @@ def main():
         if choice == '1':
             read_paragraphs()
         elif choice == '2':
-            link = get_related_links()
-            if not link:
-                print("Связанные страницы не найдены.")
-                continue
+            get_related_links()
+            # if not link:
+            #     print("Связанные страницы не найдены.")
+            #     continue
 
             print("Выберите связанную страницу:")
-            for i, link in enumerate(hatnotes[:5]):  # Выводим первые 5 связанных ссылок
+            # get_related_links()
+            print (related_links)
+            for i, link in enumerate(related_links[:5]):  # Выводим первые 5 связанных ссылок
                 print(f"{i + 1}. {link.text}")
 
             link_choice = int(input("Введите номер страницы для перехода: ")) - 1
@@ -83,17 +65,48 @@ def main():
                 related_link = related_links[link_choice]
                 related_link.click()
                 time.sleep(2)
+                while True:
+                    print("\nВыберите действие:")
+                    print("1. Листать параграфы статьи")
+                    print("2. Перейти на одну из внутренних статей")
+                    print("3. Выйти из программы")
+
+                    inner_choice = input("Ваш выбор (1/2/3): ")
+
+                    if inner_choice == '1':
+                        read_paragraphs()
+                    elif inner_choice == '2':
+                        related_links = get_related_links()
+                        if not related_links:
+                            print("Внутренние статьи не найдены.")
+                            continue
+
+                        print("Выберите внутреннюю статью:")
+                        for i, link in enumerate(related_links[:5]):
+                            print(f"{i + 1}. {link.text}")
+
+                        inner_link_choice = int(input("Введите номер статьи для перехода: ")) - 1
+
+                        if 0 <= inner_link_choice < len(related_links):
+                            related_link = related_links[inner_link_choice]
+                            related_link.click()
+                            time.sleep(2)
+                        else:
+                            print("Неверный выбор.")
+                    elif inner_choice == '3':
+                        break
+                    else:
+                        print("Неверный выбор. Пожалуйста, выберите еще раз.")
             else:
-                print("Неверный выбор.")
+                    print("Неверный выбор.")
 
         elif choice == '3':
-            print("Выход из программы.")
-            break
+                print("Выход из программы.")
+                break
         else:
-            print("Неверный выбор. Пожалуйста, выберите еще раз.")
+                print("Неверный выбор. Пожалуйста, выберите еще раз.")
 
     browser.quit()
-
 
 if __name__ == "__main__":
     main()
