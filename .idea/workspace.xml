@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e552ff8-205d-4fb1-8c27-55c7f33fd471" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="73f1cc31-cecd-4465-aad1-4ff081f6e032" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,7 +23,7 @@
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 4
 }]]></component>
-  <component name="ProjectId" id="2sCMD8cItP59G4u2v1QNgcBxb4a" />
+  <component name="ProjectId" id="2sCYm0IYzoNtMZHV6g55BYNQa86" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -47,11 +45,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6e552ff8-205d-4fb1-8c27-55c7f33fd471" name="Changes" comment="" />
-      <created>1737954984785</created>
+      <changelist id="73f1cc31-cecd-4465-aad1-4ff081f6e032" name="Changes" comment="" />
+      <created>1737961178417</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1737954984785</updated>
+      <updated>1737961178417</updated>
     </task>
     <servers />
   </component>
