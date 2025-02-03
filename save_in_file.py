@@ -22,7 +22,7 @@ for svet in svets:
         print("произошла ошибка при парсинге")
         continue
 
-        parsed_data.append([title, price, link])
+    parsed_data.append([title, price, link])
 driver.quit()
 
 with open("svet_divan.csv", 'w', newline='', encoding='utf-8') as file:
